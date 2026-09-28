@@ -1,0 +1,22 @@
+version: 2
+# The CFD tick lake as Snowflake sees it: Glue-backed Iceberg tables in DATAPAI.CFD_LAKE (catalog integration GLUE_STOCK_COMMON,
+# external volume CFD_LAKE_VOL, AUTO_REFRESH) over the tables the Kafka Connect Iceberg sink writes and catalogues in Glue `cfd`.
+# `physical_identity` is the engine-independent name the lineage stitcher joins on; the ClickHouse consumer declares the same names.
+sources:
+  - name: cfd_lake
+    database: DATAPAI
+    schema: CFD_LAKE
+    meta: {engine: snowflake, produced_by_engine: kafka_connect, physical_format: iceberg, catalog: "glue:cfd"}
+    tables:
+      - name: fct_tick_fx
+        identifier: FCT_TICK_FX
+        meta: {physical_identity: "glue:cfd.fct_tick_fx"}
+      - name: fct_tick_crypto
+        identifier: FCT_TICK_CRYPTO
+        meta: {physical_identity: "glue:cfd.fct_tick_crypto"}
+      - name: fct_tick_index
+        identifier: FCT_TICK_INDEX
+        meta: {physical_identity: "glue:cfd.fct_tick_index"}
+      - name: fct_tick_commodity
+        identifier: FCT_TICK_COMMODITY
+        meta: {physical_identity: "glue:cfd.fct_tick_commodity"}
