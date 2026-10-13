@@ -12,6 +12,11 @@ clean-targets: ["target", "dbt_packages"]
 on-run-start:
   - "{% if target.type == 'duckdb' %}ATTACH IF NOT EXISTS '073596371268' AS glue (TYPE iceberg, ENDPOINT_TYPE glue){% endif %}"
 
+vars:
+  defer_to_lake: true      # DuckDB target only (macros/ref_lake.sql): unselected refs read PROD from Glue. --vars '{defer_to_lake: false}' forces local.
+  lake_catalog: glue
+  lake_schema: cfd_mesh
+
 flags:
   enable_iceberg_materializations: True
 
