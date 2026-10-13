@@ -9,6 +9,8 @@ model-paths: ["models"]
 test-paths: ["tests"]
 target-path: "target"
 clean-targets: ["target", "dbt_packages"]
+on-run-start:
+  - "{% if target.type == 'duckdb' %}ATTACH IF NOT EXISTS '073596371268' AS glue (TYPE iceberg, ENDPOINT_TYPE glue){% endif %}"
 
 flags:
   enable_iceberg_materializations: True
@@ -25,6 +27,6 @@ models:
       +materialized: view
     marts:
       +materialized: table
-      +table_format: iceberg
-      +external_volume: CFD_LAKE_VOL
-      +base_location_root: _xengine_cfd
+      +table_format: "{{ 'iceberg' if target.type == 'snowflake' else none }}"
+      +external_volume: "{{ 'CFD_LAKE_VOL' if target.type == 'snowflake' else none }}"
+      +base_location_root: "{{ '_xengine_cfd' if target.type == 'snowflake' else none }}"

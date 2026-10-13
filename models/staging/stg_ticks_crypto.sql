@@ -19,7 +19,7 @@ with raw as (
 final as (
     select
         symbol,
-        cast(try_to_timestamp_ntz(ts_utc) as timestamp_ntz(6)) as ts_utc,
+        cast({{ safe_timestamp('ts_utc') }} as {{ ts_type() }}) as ts_utc,
         bid,
         ask,
         mid,
@@ -27,7 +27,7 @@ final as (
     session       as exchange_region,
         source,
     asset_class,
-        cast(current_timestamp() as timestamp_ntz(6)) as ingested_at
+        cast({{ dbt.current_timestamp() }} as {{ ts_type() }}) as ingested_at
     from raw
 )
 
