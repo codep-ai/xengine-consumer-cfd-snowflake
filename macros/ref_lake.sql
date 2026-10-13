@@ -10,8 +10,10 @@
   {% else %}{% set packagename = varargs[0] %}{% set modelname = varargs[1] %}{% endif %}
   {% set rel = builtins.ref(*varargs, **kwargs) %}
   {% if target.type == 'duckdb' and var('defer_to_lake', false) %}
-    {% set uid = 'model.' ~ (packagename or project_name) ~ '.' ~ modelname %}
-    {% if execute and uid not in selected_resources %}
+    {%- set pkg = packagename or project_name -%}
+    {%- set selected = ('model.' ~ pkg ~ '.' ~ modelname) in selected_resources or ('seed.' ~ pkg ~ '.' ~ modelname) in selected_resources
+                       or ('snapshot.' ~ pkg ~ '.' ~ modelname) in selected_resources -%}
+    {% if execute and not selected %}
       {{ return(api.Relation.create(database=var('lake_catalog', 'glue'), schema=var('lake_schema', 'cfd_mesh'), identifier=modelname | lower)) }}
     {% endif %}
   {% endif %}
