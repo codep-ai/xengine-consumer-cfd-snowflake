@@ -2,3 +2,4 @@ target/
 logs/
 dbt_packages/
 *.log
+dbt_internal_packages/
