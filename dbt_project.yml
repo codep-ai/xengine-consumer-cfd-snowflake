@@ -15,7 +15,7 @@ on-run-start:
 vars:
   defer_to_lake: true      # DuckDB target only (macros/ref_lake.sql): unselected refs read PROD from Glue. --vars '{defer_to_lake: false}' forces local.
   lake_catalog: glue
-  lake_schema: cfd_mesh
+  lake_schema: cfd_mesh_dev   # DEV lake (sampled, masked copy); dev never reads prod. Override only with explicit approval.
 
 flags:
   enable_iceberg_materializations: True
