@@ -6,17 +6,17 @@ sources:
   - name: cfd_lake
     database: DATAPAI
     schema: CFD_LAKE
-    meta: {engine: snowflake, produced_by_engine: kafka_connect, physical_format: iceberg, catalog: "glue:cfd"}
+    config: {meta: {engine: snowflake, produced_by_engine: kafka_connect, physical_format: iceberg, catalog: "glue:cfd"}}
     tables:
       - name: tick_fx
         identifier: TICK_FX
-        meta: {physical_identity: "glue:cfd.tick_fx"}
+        config: {meta: {physical_identity: "glue:cfd.tick_fx"}}
       - name: tick_crypto
         identifier: TICK_CRYPTO
-        meta: {physical_identity: "glue:cfd.tick_crypto"}
+        config: {meta: {physical_identity: "glue:cfd.tick_crypto"}}
       - name: tick_index
         identifier: TICK_INDEX
-        meta: {physical_identity: "glue:cfd.tick_index"}
+        config: {meta: {physical_identity: "glue:cfd.tick_index"}}
       - name: tick_commodity
         identifier: TICK_COMMODITY
-        meta: {physical_identity: "glue:cfd.tick_commodity"}
+        config: {meta: {physical_identity: "glue:cfd.tick_commodity"}}
